@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online Course Platform Admin</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .sidebar {
+            min-height: 100vh;
+            background-color: #343a40;
+            color: white;
+        }
+        .nav-link {
+            color: rgba(255,255,255,.75);
+        }
+        .nav-link:hover {
+            color: rgba(255,255,255,1);
+        }
+        .nav-link.active {
+            color: white;
+            font-weight: bold;
+        }
+        .main-content {
+            padding: 20px;
+        }
+        #dataTable {
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <div class="col-md-2 sidebar p-3">
+                <h3 class="text-center mb-4">Admin Panel</h3>
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#" data-section="dashboard">Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" data-section="users">Users</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" data-section="courses">Courses</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" data-section="lessons">Lessons</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" data-section="enrollments">Enrollments</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" data-section="comments">Comments</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" data-section="ratings">Ratings</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" data-section="dbschema">DB Schema</a>
+                    </li>
+                </ul>
+            </div>
+            
+            <!-- Main Content -->
+            <div class="col-md-10 main-content">
+                <div id="dashboard" class="section-content">
+                    <h2>Dashboard</h2>
+                    <div class="row mt-4">
+                        <div class="col-md-3">
+                            <div class="card text-white bg-primary">
+                                <div class="card-body">
+                                    <h5 class="card-title">Users</h5>
+                                    <p class="card-text" id="userCount">Loading...</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card text-white bg-success">
+                                <div class="card-body">
+                                    <h5 class="card-title">Courses</h5>
+                                    <p class="card-text" id="courseCount">Loading...</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card text-white bg-info">
+                                <div class="card-body">
+                                    <h5 class="card-title">Lessons</h5>
+                                    <p class="card-text" id="lessonCount">Loading...</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card text-white bg-warning">
+                                <div class="card-body">
+                                    <h5 class="card-title">Enrollments</h5>
+                                    <p class="card-text" id="enrollmentCount">Loading...</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="users" class="section-content d-none">
+                    <h2>Users</h2>
+                    <div class="table-responsive mt-4">
+                        <table class="table table-striped table-hover" id="usersTable">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Active</th>
+                                    <th>Admin</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Users will be loaded here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                <div id="courses" class="section-content d-none">
+                    <h2>Courses</h2>
+                    <div class="table-responsive mt-4">
+                        <table class="table table-striped table-hover" id="coursesTable">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Title</th>
+                                    <th>Author</th>
+                                    <th>Lessons</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Courses will be loaded here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                <div id="lessons" class="section-content d-none">
+                    <h2>Lessons</h2>
+                    <div class="table-responsive mt-4">
+                        <table class="table table-striped table-hover" id="lessonsTable">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Title</th>
+                                    <th>Course</th>
+                                    <th>Comments</th>
+                                    <th>Ratings</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Lessons will be loaded here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                <!-- Other sections similar structure -->
+                <div id="enrollments" class="section-content d-none">
+                    <h2>Enrollments</h2>
+                    <div class="table-responsive mt-4" id="enrollmentsContent">
+                        <!-- Enrollments will be loaded here -->
+                    </div>
+                </div>
+                
+                <div id="comments" class="section-content d-none">
+                    <h2>Comments</h2>
+                    <div class="table-responsive mt-4" id="commentsContent">
+                        <!-- Comments will be loaded here -->
+                    </div>
+                </div>
+                
+                <div id="ratings" class="section-content d-none">
+                    <h2>Ratings</h2>
+                    <div class="table-responsive mt-4" id="ratingsContent">
+                        <!-- Ratings will be loaded here -->
+                    </div>
+                </div>
+                
+                <div id="dbschema" class="section-content d-none">
+                    <h2>Database Schema</h2>
+                    <div class="mt-4" id="dbschemaContent">
+                        <!-- DB Schema will be loaded here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Utility function to display API error
+        function displayError(message) {
+            alert('Error: ' + message);
+        }
+        
+        // Function to get JWT token
+        async function getToken() {
+            const username = localStorage.getItem('admin_email');
+            const password = localStorage.getItem('admin_password');
+            
+            if (!username || !password) {
+                // Prompt for credentials
+                const email = prompt('Enter admin email:');
+                const pw = prompt('Enter admin password:');
+                
+                if (!email || !pw) {
+                    return null;
+                }
+                
+                localStorage.setItem('admin_email', email);
+                localStorage.setItem('admin_password', pw);
+                
+                return await getToken();
+            }
+            
+            try {
+                const response = await fetch('/api/v1/login/access-token', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: `username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}`,
+                });
+                
+                if (!response.ok) {
+                    localStorage.removeItem('admin_email');
+                    localStorage.removeItem('admin_password');
+                    throw new Error('Authentication failed');
+                }
+                
+                const data = await response.json();
+                return data.access_token;
+            } catch (error) {
+                displayError(error.message);
+                return null;
+            }
+        }
+        
+        // Function to load data from API
+        async function fetchData(endpoint) {
+            const token = await getToken();
+            if (!token) return null;
+            
+            try {
+                const response = await fetch(`/api/v1${endpoint}`, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`Failed to fetch data from ${endpoint}`);
+                }
+                
+                return await response.json();
+            } catch (error) {
+                displayError(error.message);
+                return null;
+            }
+        }
+        
+        // Dashboard loading
+        async function loadDashboard() {
+            const users = await fetchData('/admin/users');
+            document.getElementById('userCount').textContent = users ? users.length : 'N/A';
+            
+            const courses = await fetchData('/admin/courses');
+            document.getElementById('courseCount').textContent = courses ? courses.length : 'N/A';
+            
+            const lessons = await fetchData('/admin/lessons');
+            document.getElementById('lessonCount').textContent = lessons ? lessons.length : 'N/A';
+            
+            const enrollments = await fetchData('/admin/enrollments');
+            document.getElementById('enrollmentCount').textContent = enrollments ? enrollments.length : 'N/A';
+        }
+        
+        // Users loading
+        async function loadUsers() {
+            const users = await fetchData('/admin/users');
+            if (!users) return;
+            
+            const tableBody = document.querySelector('#usersTable tbody');
+            tableBody.innerHTML = '';
+            
+            users.forEach(user => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${user.id}</td>
+                    <td>${user.full_name}</td>
+                    <td>${user.email}</td>
+                    <td>${user.is_active ? '✅' : '❌'}</td>
+                    <td>${user.is_admin ? '✅' : '❌'}</td>
+                `;
+                tableBody.appendChild(row);
+            });
+        }
+        
+        // Courses loading
+        async function loadCourses() {
+            const courses = await fetchData('/admin/courses');
+            if (!courses) return;
+            
+            const tableBody = document.querySelector('#coursesTable tbody');
+            tableBody.innerHTML = '';
+            
+            courses.forEach(course => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${course.id}</td>
+                    <td>${course.title}</td>
+                    <td>${course.author_id}</td>
+                    <td>${course.lessons ? course.lessons.length : 0}</td>
+                `;
+                tableBody.appendChild(row);
+            });
+        }
+        
+        // Navigation handler
+        document.addEventListener('DOMContentLoaded', function() {
+            const navLinks = document.querySelectorAll('.nav-link');
+            const sections = document.querySelectorAll('.section-content');
+            
+            // Load dashboard initially
+            loadDashboard();
+            
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    // Update active link
+                    navLinks.forEach(l => l.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // Show selected section
+                    const sectionId = this.getAttribute('data-section');
+                    sections.forEach(section => {
+                        section.classList.add('d-none');
+                    });
+                    document.getElementById(sectionId).classList.remove('d-none');
+                    
+                    // Load section data
+                    switch(sectionId) {
+                        case 'dashboard':
+                            loadDashboard();
+                            break;
+                        case 'users':
+                            loadUsers();
+                            break;
+                        case 'courses':
+                            loadCourses();
+                            break;
+                        // Add handlers for other sections
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

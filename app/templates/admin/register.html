@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Регистрация | Панель администратора</title>
+    <link rel="stylesheet" href="{{ url_for('static', path='/css/admin.css') }}">
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+</head>
+<body>
+    <div class="login-container">
+        {% if error %}
+        <div class="error-message">
+            <i class="fas fa-exclamation-circle"></i> {{ error }}
+        </div>
+        {% endif %}
+        
+        <div class="brand">
+            <img src="https://fastapi.tiangolo.com/img/icon-white.svg" alt="Logo" style="background-color: #009688; border-radius: 50%; padding: 10px;">
+            <h1>FastAdmin</h1>
+        </div>
+        
+        <form method="post" action="{{ url_for('admin_register') }}">
+            <div class="form-group">
+                <label for="email">* Email</label>
+                <input type="email" class="form-control" id="email" name="email" placeholder="Введите email для регистрации" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="full_name">* Имя пользователя</label>
+                <input type="text" class="form-control" id="full_name" name="full_name" placeholder="Введите имя пользователя (не email)" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="password">* Пароль</label>
+                <div class="password-container">
+                    <input type="password" class="form-control" id="password" name="password" required>
+                    <span class="show-password" onclick="togglePassword('password', 'eye-icon-1')">
+                        <i class="far fa-eye" id="eye-icon-1"></i>
+                    </span>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="confirm_password">* Подтвердите пароль</label>
+                <div class="password-container">
+                    <input type="password" class="form-control" id="confirm_password" name="confirm_password" required>
+                    <span class="show-password" onclick="togglePassword('confirm_password', 'eye-icon-2')">
+                        <i class="far fa-eye" id="eye-icon-2"></i>
+                    </span>
+                </div>
+            </div>
+            
+            <div style="text-align: right; margin-bottom: 15px;">
+                <a href="{{ url_for('admin_login') }}" style="color: #00796b; text-decoration: none; font-size: 14px;">
+                    Уже есть аккаунт? Войти
+                </a>
+            </div>
+            
+            <button type="submit" class="btn btn-primary" style="width: 100%;">Зарегистрироваться</button>
+        </form>
+    </div>
+
+    <script>
+        function togglePassword(fieldId, iconId) {
+            const passwordField = document.getElementById(fieldId);
+            const eyeIcon = document.getElementById(iconId);
+            
+            if (passwordField.type === 'password') {
+                passwordField.type = 'text';
+                eyeIcon.classList.remove('fa-eye');
+                eyeIcon.classList.add('fa-eye-slash');
+            } else {
+                passwordField.type = 'password';
+                eyeIcon.classList.remove('fa-eye-slash');
+                eyeIcon.classList.add('fa-eye');
+            }
+        }
+        
+        // Автоматически скрыть сообщение об ошибке через 5 секунд
+        const errorMessage = document.querySelector('.error-message');
+        if (errorMessage) {
+            setTimeout(() => {
+                errorMessage.style.display = 'none';
+            }, 5000);
+        }
+    </script>
+</body>
+</html>

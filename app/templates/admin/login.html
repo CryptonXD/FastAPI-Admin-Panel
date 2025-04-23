@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Вход | Панель администратора</title>
+    <link rel="stylesheet" href="{{ url_for('static', path='/css/admin.css') }}">
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+</head>
+<body>
+    <div class="login-container">
+        {% if error %}
+        <div class="error-message">
+            <i class="fas fa-exclamation-circle"></i> {{ error }}
+        </div>
+        {% endif %}
+        
+        <div class="brand">
+            <img src="https://fastapi.tiangolo.com/img/icon-white.svg" alt="Logo" style="background-color: #009688; border-radius: 50%; padding: 10px;">
+            <h1>FastAdmin</h1>
+        </div>
+        
+        <form method="post" action="{{ url_for('admin_login') }}">
+            <div class="form-group">
+                <label for="username">* Имя пользователя</label>
+                <input type="text" id="username" name="username" class="form-control" placeholder="Введите имя пользователя (не email)" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="password">* Пароль</label>
+                <div class="password-container">
+                    <input type="password" class="form-control" id="password" name="password" required>
+                    <span class="show-password" onclick="togglePassword()">
+                        <i class="far fa-eye" id="eye-icon"></i>
+                    </span>
+                </div>
+            </div>
+            
+            <div style="text-align: right; margin-bottom: 15px;">
+                <a href="{{ url_for('admin_register') }}" style="color: #00796b; text-decoration: none; font-size: 14px;">
+                    Зарегистрироваться
+                </a>
+            </div>
+            
+            <button type="submit" class="btn btn-primary" style="width: 100%;">Войти</button>
+        </form>
+    </div>
+
+    <script>
+        function togglePassword() {
+            const passwordField = document.getElementById('password');
+            const eyeIcon = document.getElementById('eye-icon');
+            
+            if (passwordField.type === 'password') {
+                passwordField.type = 'text';
+                eyeIcon.classList.remove('fa-eye');
+                eyeIcon.classList.add('fa-eye-slash');
+            } else {
+                passwordField.type = 'password';
+                eyeIcon.classList.remove('fa-eye-slash');
+                eyeIcon.classList.add('fa-eye');
+            }
+        }
+        
+        // Автоматически скрыть сообщение об ошибке через 5 секунд
+        const errorMessage = document.querySelector('.error-message');
+        if (errorMessage) {
+            setTimeout(() => {
+                errorMessage.style.display = 'none';
+            }, 5000);
+        }
+    </script>
+</body>
+</html>
